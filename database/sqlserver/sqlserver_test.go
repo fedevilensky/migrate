@@ -13,16 +13,18 @@ import (
 
 	"github.com/dhui/dktest"
 	"github.com/docker/go-connections/nat"
-	"github.com/golang-migrate/migrate/v4"
+	"github.com/fedevilensky/migrate/v4"
 
-	dt "github.com/golang-migrate/migrate/v4/database/testing"
-	"github.com/golang-migrate/migrate/v4/dktesting"
+	dt "github.com/fedevilensky/migrate/v4/database/testing"
+	"github.com/fedevilensky/migrate/v4/dktesting"
 
-	_ "github.com/golang-migrate/migrate/v4/source/file"
+	_ "github.com/fedevilensky/migrate/v4/source/file"
 )
 
-const defaultPort = 1433
-const saPassword = "Root1234"
+const (
+	defaultPort = 1433
+	saPassword  = "Root1234"
+)
 
 var (
 	sqlEdgeOpts = dktest.Options{
