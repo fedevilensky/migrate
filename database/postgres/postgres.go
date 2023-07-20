@@ -88,7 +88,10 @@ func WithConnection(ctx context.Context, conn *sql.Conn, config *Config) (*Postg
 		config.DatabaseName = databaseName
 	}
 
-	config.migrationsSchemaName = config.SchemaName
+	if len(config.MigrationsTable) == 0 {
+		config.MigrationsTable = DefaultMigrationsTable
+	}
+
 	config.migrationsTableName = config.MigrationsTable
 	if config.MigrationsTableQuoted {
 		re := regexp.MustCompile(`"(.*?)"`)
