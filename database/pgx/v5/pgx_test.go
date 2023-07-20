@@ -15,14 +15,14 @@ import (
 	"sync"
 	"testing"
 
-	"github.com/golang-migrate/migrate/v4"
+	"github.com/fedevilensky/migrate/v4"
 
 	"github.com/dhui/dktest"
 
-	"github.com/golang-migrate/migrate/v4/database"
-	dt "github.com/golang-migrate/migrate/v4/database/testing"
-	"github.com/golang-migrate/migrate/v4/dktesting"
-	_ "github.com/golang-migrate/migrate/v4/source/file"
+	"github.com/fedevilensky/migrate/v4/database"
+	dt "github.com/fedevilensky/migrate/v4/database/testing"
+	"github.com/fedevilensky/migrate/v4/dktesting"
+	_ "github.com/fedevilensky/migrate/v4/source/file"
 )
 
 const (
@@ -32,7 +32,8 @@ const (
 var (
 	opts = dktest.Options{
 		Env:          map[string]string{"POSTGRES_PASSWORD": pgPassword},
-		PortRequired: true, ReadyFunc: isReady}
+		PortRequired: true, ReadyFunc: isReady,
+	}
 	// Supported versions: https://www.postgresql.org/support/versioning/
 	specs = []dktesting.ContainerSpec{
 		{ImageName: "postgres:9.5", Options: opts},
@@ -384,7 +385,6 @@ func TestMigrationTableOption(t *testing.T) {
 		if !exists {
 			t.Fatalf("expected table 'migrate.schema_migrations' to exist")
 		}
-
 	})
 }
 
@@ -401,7 +401,6 @@ func TestFailToCreateTableWithoutPermissions(t *testing.T) {
 		p := &Postgres{}
 
 		d, err := p.Open(addr)
-
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -471,7 +470,6 @@ func TestCheckBeforeCreateTable(t *testing.T) {
 		p := &Postgres{}
 
 		d, err := p.Open(addr)
-
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -494,7 +492,6 @@ func TestCheckBeforeCreateTable(t *testing.T) {
 		// re-connect using that schema
 		d2, err := p.Open(fmt.Sprintf("postgres://not_owner:%s@%v:%v/postgres?sslmode=disable&search_path=barfoo",
 			pgPassword, ip, port))
-
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -512,13 +509,11 @@ func TestCheckBeforeCreateTable(t *testing.T) {
 		// re-connect using that schema
 		d3, err := p.Open(fmt.Sprintf("postgres://not_owner:%s@%v:%v/postgres?sslmode=disable&search_path=barfoo",
 			pgPassword, ip, port))
-
 		if err != nil {
 			t.Fatal(err)
 		}
 
 		version, _, err := d3.Version()
-
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -683,6 +678,7 @@ func TestWithInstance_Concurrent(t *testing.T) {
 		}
 	})
 }
+
 func Test_computeLineFromPos(t *testing.T) {
 	testcases := []struct {
 		pos      int

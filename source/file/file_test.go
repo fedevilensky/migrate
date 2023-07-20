@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	st "github.com/golang-migrate/migrate/v4/source/testing"
+	st "github.com/fedevilensky/migrate/v4/source/testing"
 )
 
 func Test(t *testing.T) {
@@ -146,7 +146,7 @@ func TestClose(t *testing.T) {
 }
 
 func mustWriteFile(t testing.TB, dir, file string, body string) {
-	if err := os.WriteFile(path.Join(dir, file), []byte(body), 06444); err != nil {
+	if err := os.WriteFile(path.Join(dir, file), []byte(body), 0o6444); err != nil {
 		t.Fatal(err)
 	}
 }

@@ -12,8 +12,8 @@ import (
 	"go.uber.org/atomic"
 
 	"github.com/Azure/go-autorest/autorest/adal"
-	"github.com/golang-migrate/migrate/v4"
-	"github.com/golang-migrate/migrate/v4/database"
+	"github.com/fedevilensky/migrate/v4"
+	"github.com/fedevilensky/migrate/v4/database"
 	"github.com/hashicorp/go-multierror"
 	mssql "github.com/microsoft/go-mssqldb" // mssql support
 )
@@ -103,7 +103,6 @@ func WithInstance(instance *sql.DB, config *Config) (database.Driver, error) {
 	}
 
 	conn, err := instance.Conn(context.Background())
-
 	if err != nil {
 		return nil, err
 	}
@@ -172,7 +171,6 @@ func (ss *SQLServer) Open(url string) (database.Driver, error) {
 		DatabaseName:    purl.Path,
 		MigrationsTable: migrationsTable,
 	})
-
 	if err != nil {
 		return nil, err
 	}
@@ -257,7 +255,6 @@ func (ss *SQLServer) Run(migration io.Reader) error {
 
 // SetVersion for the current database
 func (ss *SQLServer) SetVersion(version int, dirty bool) error {
-
 	tx, err := ss.conn.BeginTx(context.Background(), &sql.TxOptions{})
 	if err != nil {
 		return &database.Error{OrigErr: err, Err: "transaction start failed"}
@@ -314,7 +311,6 @@ func (ss *SQLServer) Version() (version int, dirty bool, err error) {
 
 // Drop all tables from the database.
 func (ss *SQLServer) Drop() error {
-
 	// drop all referential integrity constraints
 	query := `
 	DECLARE @Sql NVARCHAR(500) DECLARE @Cursor CURSOR

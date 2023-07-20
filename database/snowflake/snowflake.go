@@ -11,7 +11,7 @@ import (
 
 	"go.uber.org/atomic"
 
-	"github.com/golang-migrate/migrate/v4/database"
+	"github.com/fedevilensky/migrate/v4/database"
 	"github.com/hashicorp/go-multierror"
 	"github.com/lib/pq"
 	sf "github.com/snowflakedb/gosnowflake"
@@ -74,7 +74,6 @@ func WithInstance(instance *sql.DB, config *Config) (database.Driver, error) {
 	}
 
 	conn, err := instance.Conn(context.Background())
-
 	if err != nil {
 		return nil, err
 	}

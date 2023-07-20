@@ -8,7 +8,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/golang-migrate/migrate/v4/source"
+	"github.com/fedevilensky/migrate/v4/source"
 )
 
 // Test runs tests against source implementations.
@@ -118,7 +118,6 @@ func TestReadUp(t *testing.T, d source.Driver) {
 		if (v.expectErr == os.ErrNotExist && !errors.Is(err, os.ErrNotExist)) ||
 			(v.expectErr != os.ErrNotExist && err != v.expectErr) {
 			t.Errorf("expected %v, got %v, in %v", v.expectErr, err, i)
-
 		} else if err == nil {
 			if len(identifier) == 0 {
 				t.Errorf("expected identifier not to be empty, in %v", i)
@@ -160,7 +159,6 @@ func TestReadDown(t *testing.T, d source.Driver) {
 		if (v.expectErr == os.ErrNotExist && !errors.Is(err, os.ErrNotExist)) ||
 			(v.expectErr != os.ErrNotExist && err != v.expectErr) {
 			t.Errorf("expected %v, got %v, in %v", v.expectErr, err, i)
-
 		} else if err == nil {
 			if len(identifier) == 0 {
 				t.Errorf("expected identifier not to be empty, in %v", i)
