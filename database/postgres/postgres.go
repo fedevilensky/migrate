@@ -88,33 +88,15 @@ func WithConnection(ctx context.Context, conn *sql.Conn, config *Config) (*Postg
 		config.DatabaseName = databaseName
 	}
 
-	if config.SchemaName == "" {
-		query := `SELECT CURRENT_SCHEMA()`
-		var schemaName sql.NullString
-		if err := conn.QueryRowContext(ctx, query).Scan(&schemaName); err != nil {
-			return nil, &database.Error{OrigErr: err, Query: []byte(query)}
-		}
-
-		if !schemaName.Valid {
-			return nil, ErrNoSchema
-		}
-
-		config.SchemaName = schemaName.String
-	}
-
-	if len(config.MigrationsTable) == 0 {
-		config.MigrationsTable = DefaultMigrationsTable
-	}
-
 	config.migrationsSchemaName = config.SchemaName
 	config.migrationsTableName = config.MigrationsTable
 	if config.MigrationsTableQuoted {
 		re := regexp.MustCompile(`"(.*?)"`)
 		result := re.FindAllStringSubmatch(config.MigrationsTable, -1)
 		config.migrationsTableName = result[len(result)-1][1]
-		if len(result) == 2 {
+		if len(result) == 1 {
 			config.migrationsSchemaName = result[0][1]
-		} else if len(result) > 2 {
+		} else if len(result) > 1 {
 			return nil, fmt.Errorf("\"%s\" MigrationsTable contains too many dot characters", config.MigrationsTable)
 		}
 	}
@@ -210,7 +192,6 @@ func (p *Postgres) Open(url string) (database.Driver, error) {
 		MultiStatementEnabled: multiStatementEnabled,
 		MultiStatementMaxSize: multiStatementMaxSize,
 	})
-
 	if err != nil {
 		return nil, err
 	}
