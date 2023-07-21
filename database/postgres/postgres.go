@@ -435,19 +435,19 @@ func (p *Postgres) Drop() (err error) {
 // Note that this function locks the database, which deviates from the usual
 // convention of "caller locks" in the Postgres type.
 func (p *Postgres) ensureVersionTable() (err error) {
-	if err = p.Lock(); err != nil {
-		return err
-	}
+	// if err = p.Lock(); err != nil {
+	// 	return err
+	// }
 
-	defer func() {
-		if e := p.Unlock(); e != nil {
-			if err == nil {
-				err = e
-			} else {
-				err = multierror.Append(err, e)
-			}
-		}
-	}()
+	// defer func() {
+	// 	if e := p.Unlock(); e != nil {
+	// 		if err == nil {
+	// 			err = e
+	// 		} else {
+	// 			err = multierror.Append(err, e)
+	// 		}
+	// 	}
+	// }()
 
 	// This block checks whether the `MigrationsTable` already exists. This is useful because it allows read only postgres
 	// users to also check the current version of the schema. Previously, even if `MigrationsTable` existed, the
