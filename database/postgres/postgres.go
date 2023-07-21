@@ -97,9 +97,7 @@ func WithConnection(ctx context.Context, conn *sql.Conn, config *Config) (*Postg
 		re := regexp.MustCompile(`"(.*?)"`)
 		result := re.FindAllStringSubmatch(config.MigrationsTable, -1)
 		config.migrationsTableName = result[len(result)-1][1]
-		if len(result) == 1 {
-			config.migrationsSchemaName = result[0][1]
-		} else if len(result) > 1 {
+		if len(result) > 1 {
 			return nil, fmt.Errorf("\"%s\" MigrationsTable contains too many dot characters", config.MigrationsTable)
 		}
 	}
