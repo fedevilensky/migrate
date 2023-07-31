@@ -434,7 +434,7 @@ func (p *Postgres) ensureVersionTable() (err error) {
 	// users to also check the current version of the schema. Previously, even if `MigrationsTable` existed, the
 	// `CREATE TABLE IF NOT EXISTS...` query would fail because the user does not have the CREATE permission.
 	// Taken from https://github.com/mattes/migrate/blob/master/database/postgres/postgres.go#L258
-	query := `SELECT COUNT(1) FROM information_schema.tables WHERE table_name = $2 LIMIT 1`
+	query := `SELECT COUNT(1) FROM information_schema.tables WHERE table_name = $1 LIMIT 1`
 	row := p.conn.QueryRowContext(context.Background(), query, p.config.migrationsTableName)
 
 	var count int
